@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
 import { CarsService } from './cars.service';
 
 @Controller('cars')
@@ -6,7 +6,7 @@ export class CarsController {
   /**
    * Es readonly porque no queremos accidentalmente cambiar nada de nuestro service aca.
    * En el construsctor tealizamos la Inyección de dependencias y Nest automaticamente.
-   * Por debajo realiza la instancia para que quede para nosotros lista para usar. 
+   * Por debajo realiza la instancia para que quede para nosotros lista para usar.
    * */
   constructor(private readonly carsService: CarsService) {}
 
@@ -30,7 +30,7 @@ export class CarsController {
    * @returns car: string
    */
   @Get(':id')
-  getCarById(@Param('id') id: string) {
+  getCarById(@Param('id', ParseIntPipe) id: number) {
     return this.carsService.findById(id);
   }
 }
