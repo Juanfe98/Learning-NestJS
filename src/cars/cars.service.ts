@@ -20,4 +20,12 @@ export class CarsService {
       mode: 'Prado',
     },
   ];
+
+  findAll() {
+    return this.cars;
+  }
+
+  findById(id: string) {
+    return this.cars.find((car) => car.id === id);
+  }
 }

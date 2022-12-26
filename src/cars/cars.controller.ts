@@ -1,7 +1,15 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { CarsService } from './cars.service';
 
 @Controller('cars')
 export class CarsController {
+  /**
+   * Es readonly porque no queremos accidentalmente cambiar nada de nuestro service aca.
+   * En el construsctor tealizamos la Inyección de dependencias y Nest automaticamente.
+   * Por debajo realiza la instancia para que quede para nosotros lista para usar. 
+   * */
+  constructor(private readonly carsService: CarsService) {}
+
   /**
    * The Get decoractor will tell nest to invoke that method
    * whenever the route cars recieve a get request from the client.
@@ -9,7 +17,7 @@ export class CarsController {
    */
   @Get()
   getAllCars() {
-    return this.cars;
+    return this.carsService.findAll();
   }
 
   /**
@@ -23,6 +31,6 @@ export class CarsController {
    */
   @Get(':id')
   getCarById(@Param('id') id: string) {
-    return this.cars[id];
+    return this.carsService.findById(id);
   }
 }
