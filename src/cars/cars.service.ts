@@ -1,23 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Car } from './interfaces/car.interface';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class CarsService {
   // Private queire decir que solo podrá ser accedido en el servicio.
-  private cars = [
+  private cars: Car[] = [
     {
-      id: 1,
+      id: uuid(),
       brand: 'Mazda',
-      mode: 'Mazda3',
+      model: 'Mazda3',
     },
     {
-      id: 2,
+      id: uuid(),
       brand: 'Nissan',
-      mode: 'Versa',
+      model: 'Versa',
     },
     {
-      id: 3,
+      id: uuid(),
       brand: 'Toyota',
-      mode: 'Prado',
+      model: 'Prado',
     },
   ];
 
@@ -33,7 +35,7 @@ export class CarsService {
    * En este caso estamos usando `NotFoundException` con un custome message,
    * cuando el carId no see encuentra.
    */
-  findById(id: number) {
+  findById(id: string) {
     const car = this.cars.find((car) => car.id === id);
     if (!car) throw new NotFoundException(`Car with id ${id} not found`);
   }
