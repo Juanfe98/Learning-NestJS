@@ -169,3 +169,19 @@ un mensaje como este:
     "error": "Bad Request"
 }
 ```
+
+## Utilizando pipes de manera global 
+
+Algunos pipes puede que vayan a ser utilizados a lo largo de todos nuestros controladores 
+y para no estar repitiendo siempre la misma linea, Nest nos permite añadirlos a nivel de app.
+
+Esto lo realizamos de la siguiente manera, em el archivo main:
+
+```typescript
+app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // Le dice a nest que ignoren los params que no esten definidas en el DTO.
+      forbidNonWhitelisted: true, // Hace que se genere un error si se envian mas params que los que se esperaban en el DTO.
+    }),
+  );
+```
