@@ -8,10 +8,18 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
+import { CreateCarDto } from './DTO/create-car.dto';
 
 @Controller('cars')
+/**
+ * This @UsePipes decorator will tell nest that this whole controller will be
+ * using the class validator to validate the routes.
+ */
+@UsePipes(ValidationPipe)
 export class CarsController {
   /**
    * Es readonly porque no queremos accidentalmente cambiar nada de nuestro service aca.
@@ -44,9 +52,13 @@ export class CarsController {
     return this.carsService.findById(id);
   }
 
+  /**
+   * Thanks to the @usePipes(classValidator) this POST route will validate the
+   * params passed with the createCarDto.
+   */
   @Post()
-  createCar(@Body() body: any) {
-    return body;
+  createCar(@Body() createCarDto: CreateCarDto) {
+    return createCarDto;
   }
 
   @Patch(':id')
