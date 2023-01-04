@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Car } from './interfaces/car.interface';
 import { v4 as uuid } from 'uuid';
+import { CreateCarDto } from './DTO/create-car.dto';
+import { UpdateCarDto } from './DTO/update-car.dto';
 
 @Injectable()
 export class CarsService {
@@ -35,8 +37,37 @@ export class CarsService {
    * En este caso estamos usando `NotFoundException` con un custome message,
    * cuando el carId no see encuentra.
    */
-  findById(id: string) {
+  findById(id: string): Car {
     const car = this.cars.find((car) => car.id === id);
     if (!car) throw new NotFoundException(`Car with id ${id} not found`);
+    return car;
+  }
+
+  createOne(createCarDto: CreateCarDto) {
+    const newCar = { ...createCarDto, id: uuid() };
+    this.cars = [...this.cars, newCar];
+    return newCar;
+  }
+
+  update(id: string, updateCarDto: UpdateCarDto) {
+    let updateCar = this.findById(id);
+
+    this.cars = this.cars.map((car) => {
+      if (car.id === id) {
+        updateCar = { ...car, ...updateCarDto, id };
+        return updateCar;
+      }
+      return car;
+    });
+
+    return updateCar;
+  }
+
+  delete(id: string) {
+    const deleteCar = this.findById(id);
+    this.cars = this.cars.filter((car) => {
+      return car.id !== id;
+    });
+    return deleteCar;
   }
 }
