@@ -7,23 +7,7 @@ import { UpdateCarDto } from './DTO/update-car.dto';
 @Injectable()
 export class CarsService {
   // Private queire decir que solo podrá ser accedido en el servicio.
-  private cars: Car[] = [
-    {
-      id: uuid(),
-      brand: 'Mazda',
-      model: 'Mazda3',
-    },
-    {
-      id: uuid(),
-      brand: 'Nissan',
-      model: 'Versa',
-    },
-    {
-      id: uuid(),
-      brand: 'Toyota',
-      model: 'Prado',
-    },
-  ];
+  private cars: Car[] = [];
 
   findAll() {
     return this.cars;
@@ -69,5 +53,13 @@ export class CarsService {
       return car.id !== id;
     });
     return deleteCar;
+  }
+
+  populateTableWithSeed(cars: Car[]) {
+    console.log(
+      '🚀 ~ file: cars.service.ts:75 ~ CarsService ~ populateTableWithSeed ~ cars',
+      cars,
+    );
+    this.cars = cars;
   }
 }

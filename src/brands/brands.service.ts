@@ -51,4 +51,8 @@ export class BrandsService {
     this.brands.splice(this.brands.indexOf(brand), 1);
     return this.brands;
   }
+
+  populateTableWithSeed(brands: Brand[]) {
+    this.brands = brands;
+  }
 }
